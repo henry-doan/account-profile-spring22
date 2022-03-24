@@ -1,70 +1,185 @@
-# Getting Started with Create React App
+React Context API
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+Context is designed to share data that can be considered "global" for a 
+tree of React components
+  - eliminate prop drilling
 
-In the project directory, you can run:
+  - User Authentication
+  - Style Themes
+  - Language Preferences 
+  - Access in a global scale
+   - HOC 
+   - CRUD from the HOC
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Context Api 
+  Provider - anything you want to have at a global scale
+  Consumer - Access to the provider 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  context hook
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  const App = () => {
+    return ( 
+      <Toolbar theme="dark" />
+    )
+  }
+  
+  const Toolbar = ({ theme }) =>  {
+    return (
+      <div>
+        <ThemedButton theme={theme} />
+      </div>
+    )
+  }
+  
+  const ThemedButton = ({ theme }) => {
+    return (
+      <Button theme={theme} />
+    )
+  }
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+const ThemeContext = React.createContext('light');
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+const App = () => {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
+}
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+const Toolbar = () =>  {
+  return (
+    <div>
+      <ThemedButton />
+    </div>
+  );
+}
 
-## Learn More
+const ThemedButton = () => {
+  const contextType = ThemeContext;
+  
+  return(
+    <Button theme={this.context} />
+  )
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  //                                  Index
+  //                                    |
+  //                                   App
+  //                               /             \ 
+  //                         Messages             Market 
+  //                           / \                      \
+  //                   PForm       Posts                 List 
+  //                                 \                     \
+  //                                  Post                Item 
+  //                                   / \                     \ 
+  //                             CForm    Comments          Reviews 
+  //                                       \                       \
+  //                                        Comment              Review
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+  //                                   Index
+  //                                     |
+  //                                    App
+  //                                     |
+  //                                    Auth (user )
+  //                               /             \ 
+  //                         Messages (user)      Market  (user) 
+  //                           / \                      \
+                    // PForm       Posts (user)           List (user) 
+  //                                 \                     \
+  //                                 Post (user)            Item (user) 
+  //                                   / \                     \ 
+  //                             CForm    Comments (user)       Reviews (user) 
+  //                                       \                       \
+  //                                         Comment (user)        Review (user)
+
+
+
+
+
+
+
+
+
+
+//  Context API
+//  Provider store globally user  Index
+// {Consumer}                     |
+//                                App
+//                               /             \ 
+//                         Messages             Market 
+//                           / \                      \
+//                   PForm       Posts                 List 
+//                                 \                     \
+//                                 {Post} (user)            Item 
+//                                   / \                     \ 
+//                             CForm    Comments          Reviews 
+//                                       \                       \
+//                                         {Comment} (user)        {Review}(user)
+
+
+
+user DateJoined, memberlvl, username
+
+
+ Context
+  provider 
+     user  = { date, memberlvl, username }
+
+     updateuser
+     adduser 
+     deleteuser
+ { consumer }
+ 
+                          index 
+                         app (routes)
+                {navbar} (username)    Profile
+                               {Form}                {account} (date, member, username)
+
+
+//  Context API
+//  Provider  store globaly        Index
+// {Consumer}                     |
+//                                App
+//                 /              /             \ 
+//   (register)  Register         Login (handleLogin)           Navbar (user, logout)
+//                           / \                      
+//                   PForm       Posts                 
+//                                 \                     
+//                                 {Post} (user)            
+//                                   / \                     
+//                             CForm    Comments           
+//                                       \                       
+//                                         {Comment} (user)      
+
+// Provider
+//   user Object
+//   handleRegister
+//   handleLogin
+//   handleLogout
+//   isAuthenticated
+//   setUser
